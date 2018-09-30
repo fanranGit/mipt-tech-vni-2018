@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/tmp
+    
+	docker:
+      - image: circleci/python:3.6.1
+
+    steps:
+      - checkout
+
+      - run:
+          name: Virtualenv creating and deps install 
+          command: |
+            python3 -m virtualenv test_env
+            . test_env/bin/activate
+            pip install -r requirements.txt
+
+        
+      - run:
+          name: Create html page and store it as artifact
+          command: |
+            . test_env/bin/activate
+            mkdir html-artifact
+            jupyter nbconvert --execute 01/01_zaborovskiy.ipynb
+            mv 01/01_zaborovskiy.html html-artifact/hw1.html
+      - store_artifacts:
+          path: html-artifact
+          destination: html-artifact
