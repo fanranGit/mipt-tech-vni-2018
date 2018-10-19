@@ -35,6 +35,7 @@ jobs:
         - run:
             name: Download kaggle titanic dataset and create submisison
             command: |
+                . test_env/bin/activate
                 cd 02
                 mkdir input
                 kaggle c download titanic -p input/
